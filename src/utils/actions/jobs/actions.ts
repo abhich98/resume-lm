@@ -18,16 +18,18 @@ export async function createJob(jobListing: z.infer<typeof simplifiedJobSchema>)
 
   const jobData = {
     user_id: user.id,
-    company_name: jobListing.company_name,
-    position_title: jobListing.position_title,
-    job_url: jobListing.job_url,
+    title: jobListing.position_title,
+    company: jobListing.company_name,
     description: jobListing.description,
-    location: jobListing.location,
+    job_url: jobListing.job_url,
+    location: jobListing.location || 'unspecified',
     salary_range: jobListing.salary_range,
     keywords: jobListing.keywords,
     work_location: jobListing.work_location || 'in_person', 
     employment_type: jobListing.employment_type || 'full_time', 
-    is_active: true
+    is_active: true,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
   };
 
   const { data, error } = await supabase
