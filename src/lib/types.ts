@@ -224,3 +224,23 @@ export interface SortDescriptor<T> {
   column: T;
   direction: SortDirection;
 }
+
+// LaTeX Template Injection Types
+export interface TexValidationResult {
+  isValid: boolean;
+  errors: string[];
+  warnings: string[];
+  stats: {
+    documentclassCount: number;
+    documentEnvironmentFound: boolean;
+    environmentCount: number;
+    totalLines: number;
+  };
+}
+
+export interface TemplateInjectionResult {
+  success: boolean;
+  content?: string;
+  error?: string;
+  validationDetails?: TexValidationResult;
+}

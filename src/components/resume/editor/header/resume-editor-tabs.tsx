@@ -1,6 +1,6 @@
 'use client';
 
-import { User, Briefcase, FolderGit2, GraduationCap, Wrench, LayoutTemplate } from "lucide-react";
+import { User, Briefcase, FolderGit2, GraduationCap, Wrench, LayoutTemplate, Upload } from "lucide-react";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export function ResumeEditorTabs() {
@@ -8,7 +8,7 @@ export function ResumeEditorTabs() {
     <>
       {/* Enhanced second row with Resume Score and Cover Letter */}
       <div className="my-2">
-        <TabsList className="h-full w-full relative bg-white/80 backdrop-blur-xl border border-white/40 rounded-lg overflow-hidden grid grid-cols-2 gap-0.5 p-0.5 shadow-lg">
+        <TabsList className="h-full w-full relative bg-white/80 backdrop-blur-xl border border-white/40 rounded-lg overflow-hidden grid grid-cols-3 gap-0.5 p-0.5 shadow-lg">
           
           {/* Resume Score */}
           <TabsTrigger 
@@ -52,6 +52,24 @@ export function ResumeEditorTabs() {
               <div className="absolute -bottom-0.5 left-0 right-0 h-0.5 rounded-full bg-amber-500 scale-x-0 transition-transform duration-300 group-data-[state=active]:scale-x-100"></div>
             </span>
           </TabsTrigger>
+
+          {/*  Latex Template Injection */}
+          <TabsTrigger 
+            value="template-injection" 
+            className="group flex items-center gap-1.5 px-3 py-1.5 rounded-md font-medium relative transition-all duration-300
+              data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500/10 data-[state=active]:to-indigo-500/10
+              data-[state=active]:border-blue-500/20 data-[state=active]:shadow-md hover:bg-white/60
+              data-[state=inactive]:text-gray-500 data-[state=inactive]:hover:text-gray-900"
+          >
+            <div className="p-1 rounded-md bg-blue-100/80 transition-transform duration-300 group-data-[state=active]:scale-105 group-data-[state=active]:bg-blue-100">
+              <Upload className="h-3.5 w-3.5 text-blue-600 transition-colors group-data-[state=inactive]:text-blue-500/70" />
+            </div>
+            <span className="relative text-sm whitespace-nowrap">
+              Latex Template Injection
+              <div className="absolute -bottom-0.5 left-0 right-0 h-0.5 rounded-full bg-blue-500 scale-x-0 transition-transform duration-300 group-data-[state=active]:scale-x-100"></div>
+            </span>
+          </TabsTrigger>
+
         </TabsList>
       </div>
 

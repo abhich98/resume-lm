@@ -20,6 +20,7 @@ import {
 } from '../dynamic-components';
 import { ResumeEditorTabs } from "../header/resume-editor-tabs";
 import ResumeScorePanel from "./resume-score-panel";
+import { TemplateInjectionDialog } from "../dialogs/template-injection-dialog";
 
 
 
@@ -160,6 +161,18 @@ export function EditorPanel({
                     }}
                   />
                 </Suspense>
+              </TabsContent>
+
+              {/* Latex Template Injection */}
+              <TabsContent value="template-injection">
+                <div className="p-4">
+                  <TemplateInjectionDialog
+                    resume={resume}
+                    job={job}
+                    triggerLabel="Inject resume into desired .tex file"
+                    triggerClassName="w-full justify-center h-10 text-sm"
+                  />
+                </div>
               </TabsContent>
 
               {/* Cover Letter Form */}
