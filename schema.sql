@@ -55,8 +55,8 @@ EXECUTE FUNCTION update_updated_at_column();
 CREATE TABLE IF NOT EXISTS public.jobs (
   id uuid NOT NULL DEFAULT uuid_generate_v4(),
   user_id uuid NOT NULL,
-  title text NOT NULL,
-  company text NULL,
+  company_name text NULL,
+  position_title text NOT NULL,
   description text NULL,
   job_url text NULL,
   location text NULL,

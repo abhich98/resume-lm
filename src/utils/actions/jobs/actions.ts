@@ -18,8 +18,8 @@ export async function createJob(jobListing: z.infer<typeof simplifiedJobSchema>)
 
   const jobData = {
     user_id: user.id,
-    title: jobListing.position_title,
-    company: jobListing.company_name,
+    position_title: jobListing.position_title,
+    company_name: jobListing.company_name,
     description: jobListing.description,
     job_url: jobListing.job_url,
     location: jobListing.location || 'unspecified',
