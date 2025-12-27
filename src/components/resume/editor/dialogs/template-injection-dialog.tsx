@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Upload, FileText, AlertCircle, CheckCircle2, Loader2, Download } from 'lucide-react';
+import { Upload, FileText, AlertCircle, CheckCircle2, Loader2, Download, Trash2 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { Resume, Job, TemplateInjectionResult } from '@/lib/types';
 import { injectResumeIntoTemplate, validateLatexTemplate } from '@/utils/actions/latex-template/actions';
@@ -156,7 +156,13 @@ export function TemplateInjectionDialog({
     const element = document.createElement('a');
     const file = new Blob([result.content], { type: 'application/x-tex' });
     element.href = URL.createObjectURL(file);
-    element.download = `Resume_${resume.last_name}_${job?.position_title || ''}_${job?.company_name || ''}.tex`;
+    const downloadFileName = `Resume_${resume.last_name}_${job?.position_title || ''}_${job?.company_name || ''}.tex`;
+    // Replace runs of whitespace and hyphens with a single underscore,
+    // collapse multiple underscores and trim leading/trailing underscores.
+    element.download = downloadFileName
+      .replace(/[\s-]+/g, '_')
+      .replace(/_+/g, '_')
+      .replace(/^_+|_+$/g, '');
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
@@ -171,6 +177,18 @@ export function TemplateInjectionDialog({
   const handleDownloadAnyway = () => {
     if (!result?.content) return;
     handleDownload();
+  };
+
+  const handleFileDelete = () => {
+    setResult(null);
+    setTemplateContent('');
+    setFileName('');
+    setInputValidation(null);
+
+    toast({
+      title: 'Template removed',
+      description: 'Uploaded .tex template has been deleted',
+    });
   };
 
   return (
@@ -241,6 +259,18 @@ export function TemplateInjectionDialog({
                         )}
                       </div>
                     )}
+                    {/* Delete uploaded template */}
+                    <div className="flex-shrink-0">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleFileDelete}
+                        aria-label="Delete uploaded template"
+                        className="h-8 w-8 p-0"
+                      >
+                        <Trash2 className="w-4 h-4 text-red-600" />
+                      </Button>
+                    </div>
                   </div>
                 </div>
               )}
