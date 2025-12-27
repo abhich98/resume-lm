@@ -11,6 +11,7 @@ import { ImportFromProfileDialog } from "../../management/dialogs/import-from-pr
 import { ApiErrorDialog } from "@/components/ui/api-error-dialog";
 
 import { useState, useRef, useEffect, memo } from "react";
+import { updateAt, useStableObjectKeys } from "@/lib/immutable";
 import {
   Tooltip,
   TooltipContent,
@@ -74,6 +75,9 @@ export const WorkExperienceForm = memo(function WorkExperienceFormComponent({
   const [improvementConfig, setImprovementConfig] = useState<ImprovementConfig>({});
   const [showErrorDialog, setShowErrorDialog] = useState(false);
   const [errorMessage, setErrorMessage] = useState({ title: '', description: '' });
+
+  // Stable keys for experiences to avoid index-based keys
+  const experienceKeys = useStableObjectKeys(experiences);
 
   // Effect to focus textarea when popover opens
   useEffect(() => {
@@ -330,7 +334,7 @@ export const WorkExperienceForm = memo(function WorkExperienceFormComponent({
 
         {experiences.map((exp, index) => (
           <Card 
-            key={index} 
+            key={experienceKeys[index]} 
             className={cn(
               "relative group transition-all duration-300",
               "bg-gradient-to-r from-cyan-500/5 via-cyan-500/10 to-blue-500/5",
@@ -541,8 +545,10 @@ export const WorkExperienceForm = memo(function WorkExperienceFormComponent({
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => {
-                                  const updated = [...experiences];
-                                  updated[index].description = updated[index].description.filter((_, i) => i !== descIndex);
+                                  const updated = updateAt(experiences, index, (curr) => ({
+                                    ...curr,
+                                    description: (curr.description || []).filter((_, i) => i !== descIndex)
+                                  }));
                                   onChange(updated);
                                 }}
                                 className="p-0 group-hover/item:opacity-100 text-gray-400 hover:text-red-500 transition-all duration-300"
@@ -629,8 +635,10 @@ export const WorkExperienceForm = memo(function WorkExperienceFormComponent({
                       variant="outline"
                       size="sm"
                       onClick={() => {
-                        const updated = [...experiences];
-                        updated[index].description = [...updated[index].description, ""];
+                        const updated = updateAt(experiences, index, (curr) => ({
+                          ...curr,
+                          description: [...(curr.description || []), ""]
+                        }));
                         onChange(updated);
                       }}
                       className={cn(

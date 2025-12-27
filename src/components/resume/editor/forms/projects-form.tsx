@@ -9,6 +9,7 @@ import { Plus, Trash2, GripVertical, Loader2, Sparkles, Check, X } from "lucide-
 import { cn } from "@/lib/utils";
 import { ImportFromProfileDialog } from "../../management/dialogs/import-from-profile-dialog";
 import { useState, useRef, useEffect, memo } from "react";
+import { updateAt, useStableObjectKeys } from "@/lib/immutable";
 import {
   Tooltip,
   TooltipContent,
@@ -70,6 +71,7 @@ export const ProjectsForm = memo(function ProjectsFormComponent({
   const [errorMessage, setErrorMessage] = useState({ title: '', description: '' });
   const textareaRefs = useRef<{ [key: number]: HTMLTextAreaElement }>({});
   const [newTechnologies, setNewTechnologies] = useState<{ [key: number]: string }>({});
+  const projectKeys = useStableObjectKeys(projects);
 
   // Effect to focus textarea when popover opens
   useEffect(() => {
@@ -359,7 +361,7 @@ export const ProjectsForm = memo(function ProjectsFormComponent({
 
         {projects.map((project, index) => (
           <Card 
-            key={index} 
+            key={projectKeys[index]} 
             className={cn(
               "relative group transition-all duration-300",
               "bg-gradient-to-r from-violet-500/5 via-violet-500/10 to-purple-500/5",
@@ -569,8 +571,10 @@ export const ProjectsForm = memo(function ProjectsFormComponent({
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => {
-                                  const updated = [...projects];
-                                  updated[index].description = updated[index].description.filter((_, i) => i !== descIndex);
+                                  const updated = updateAt(projects, index, (curr) => ({
+                                    ...curr,
+                                    description: (curr.description || []).filter((_, i) => i !== descIndex)
+                                  }));
                                   onChange(updated);
                                 }}
                                 className="p-0 group-hover/item:opacity-100 text-gray-400 hover:text-red-500 transition-all duration-300"
@@ -656,8 +660,10 @@ export const ProjectsForm = memo(function ProjectsFormComponent({
                       variant="outline"
                       size="sm"
                       onClick={() => {
-                        const updated = [...projects];
-                        updated[index].description = [...updated[index].description, ""];
+                        const updated = updateAt(projects, index, (curr) => ({
+                          ...curr,
+                          description: [...(curr.description || []), ""]
+                        }));
                         onChange(updated);
                       }}
                       className={cn(

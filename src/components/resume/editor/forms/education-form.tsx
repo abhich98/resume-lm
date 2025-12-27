@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Plus, Trash2 } from "lucide-react";
 import { ImportFromProfileDialog } from "../../management/dialogs/import-from-profile-dialog";
 import { memo } from 'react';
+import { useStableObjectKeys } from '@/lib/immutable';
 import { cn } from "@/lib/utils";
 import Tiptap from "@/components/ui/tiptap";
 
@@ -33,6 +34,7 @@ export const EducationForm = memo(function EducationFormComponent({
   onChange,
   profile
 }: EducationFormProps) {
+  const educationKeys = useStableObjectKeys(education);
   const addEducation = () => {
     onChange([{
       school: "",
@@ -102,7 +104,7 @@ export const EducationForm = memo(function EducationFormComponent({
 
       {education.map((edu, index) => (
         <Card 
-          key={index} 
+          key={educationKeys[index]} 
           className={cn(
             "relative group transition-all duration-300",
             "bg-gradient-to-r from-indigo-500/5 via-indigo-500/10 to-blue-500/5",
