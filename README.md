@@ -23,6 +23,12 @@
 
 </div>
 
+## 🔱 Fork Information & Development Context
+
+This repository is a fork of the original ResumeLM project by olyaiy, available at https://github.com/olyaiy/resume-lm. All credit for the foundational work and initial vision goes to the original creator.
+
+This fork has adapted its development methodology. I primarily want to learn, experiment, add LATEX support, and make improvements to resume scoring and other UI featues. As such, this fork may not always align with the original project's roadmap or feature set. 
+
 ## 🎯 Why Choose ResumeLM?
 
 **ResumeLM** is a free, open-source AI resume builder that helps job seekers create professional, ATS-optimized resumes that increase interview chances by up to **3x**. Our intelligent platform combines cutting-edge AI technology with proven resume best practices to help you land your dream job.
