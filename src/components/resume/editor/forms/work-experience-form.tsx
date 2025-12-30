@@ -11,7 +11,7 @@ import { ImportFromProfileDialog } from "../../management/dialogs/import-from-pr
 import { ApiErrorDialog } from "@/components/ui/api-error-dialog";
 
 import { useState, useRef, useEffect, memo } from "react";
-import { updateAt, useStableObjectKeys } from "@/lib/immutable";
+import { updateAt } from "@/lib/immutable";
 import {
   Tooltip,
   TooltipContent,
@@ -75,9 +75,6 @@ export const WorkExperienceForm = memo(function WorkExperienceFormComponent({
   const [improvementConfig, setImprovementConfig] = useState<ImprovementConfig>({});
   const [showErrorDialog, setShowErrorDialog] = useState(false);
   const [errorMessage, setErrorMessage] = useState({ title: '', description: '' });
-
-  // Stable keys for experiences to avoid index-based keys
-  const experienceKeys = useStableObjectKeys(experiences);
 
   // Effect to focus textarea when popover opens
   useEffect(() => {
@@ -334,7 +331,7 @@ export const WorkExperienceForm = memo(function WorkExperienceFormComponent({
 
         {experiences.map((exp, index) => (
           <Card 
-            key={experienceKeys[index]} 
+            key={index} 
             className={cn(
               "relative group transition-all duration-300",
               "bg-gradient-to-r from-cyan-500/5 via-cyan-500/10 to-blue-500/5",

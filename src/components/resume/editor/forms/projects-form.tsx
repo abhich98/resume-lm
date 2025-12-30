@@ -9,7 +9,7 @@ import { Plus, Trash2, GripVertical, Loader2, Sparkles, Check, X } from "lucide-
 import { cn } from "@/lib/utils";
 import { ImportFromProfileDialog } from "../../management/dialogs/import-from-profile-dialog";
 import { useState, useRef, useEffect, memo } from "react";
-import { updateAt, useStableObjectKeys } from "@/lib/immutable";
+import { updateAt } from "@/lib/immutable";
 import {
   Tooltip,
   TooltipContent,
@@ -71,7 +71,6 @@ export const ProjectsForm = memo(function ProjectsFormComponent({
   const [errorMessage, setErrorMessage] = useState({ title: '', description: '' });
   const textareaRefs = useRef<{ [key: number]: HTMLTextAreaElement }>({});
   const [newTechnologies, setNewTechnologies] = useState<{ [key: number]: string }>({});
-  const projectKeys = useStableObjectKeys(projects);
 
   // Effect to focus textarea when popover opens
   useEffect(() => {
@@ -361,7 +360,7 @@ export const ProjectsForm = memo(function ProjectsFormComponent({
 
         {projects.map((project, index) => (
           <Card 
-            key={projectKeys[index]} 
+            key={index} 
             className={cn(
               "relative group transition-all duration-300",
               "bg-gradient-to-r from-violet-500/5 via-violet-500/10 to-purple-500/5",

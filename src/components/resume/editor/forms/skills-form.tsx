@@ -9,7 +9,6 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { ImportFromProfileDialog } from "../../management/dialogs/import-from-profile-dialog";
 import { useState, KeyboardEvent } from 'react';
-import { useStableObjectKeys, updateAt } from '@/lib/immutable';
 
 interface SkillsFormProps {
   skills: Skill[];
@@ -23,7 +22,6 @@ export function SkillsForm({
   profile
 }: SkillsFormProps) {
   const [newSkills, setNewSkills] = useState<{ [key: number]: string }>({});
-  const skillKeys = useStableObjectKeys(skills);
 
   const addSkillCategory = () => {
     onChange([{
@@ -125,7 +123,7 @@ export function SkillsForm({
 
       {skills.map((skill, index) => (
         <Card 
-          key={skillKeys[index]} 
+          key={index} 
           className={cn(
             "relative group transition-all duration-300",
             "bg-gradient-to-r from-rose-500/5 via-rose-500/10 to-pink-500/5",
@@ -178,13 +176,7 @@ export function SkillsForm({
                     >
                       {item}
                       <button
-                        onClick={() => {
-                          const updated = updateAt(skills, index, (curr) => ({
-                            ...curr,
-                            items: curr.items.filter((_, i) => i !== skillIndex)
-                          }));
-                          onChange(updated);
-                        }}
+                        onClick={() => removeSkill(index, skillIndex)}
                         className="ml-1.5 hover:text-red-500 opacity-50 hover:opacity-100 transition-opacity"
                       >
                         ×
